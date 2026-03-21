@@ -40,6 +40,7 @@ Close the window to exit. A screenshot will be saved to `out.png`.
 | `-z` | `--zoom`       | 1000 // SIZE | Display zoom factor                        |
 | `-p` | `--p-active`   | 0.004        | Initial probability of a cell being active |
 | `-f` | `--framerate`  | 30           | Target frames per second                   |
+| `-g` | `--generations`| 0            | Exit after N generations (0 = indefinite)  |
 
 Examples:
 

@@ -15,6 +15,7 @@ SIZE = 500
 ZOOM = None  # Derived from SIZE if not specified
 P_ACTIVE = 1 / 250
 FRAMERATE = 30
+GENERATIONS = 0
 
 
 def _sum(src):
@@ -66,7 +67,7 @@ def _update(off, active, cooldown, colors):
     colors[cooldown > 0] = (190., 219., 57.)
 
 
-def main(size, zoom, init_p, framerate):
+def main(size, zoom, init_p, framerate, generations):
     """Entry point."""
     delay_ms = 1000 // framerate
     # pylint:disable=no-member
@@ -85,6 +86,7 @@ def main(size, zoom, init_p, framerate):
     screen = pg.display.set_mode((size * zoom, size * zoom), 0, 24)
     # pylint:disable=too-many-function-args
     surface = pg.Surface((size, size))
+    gen = 0
     while True:
         loop_start_ms = pg.time.get_ticks()
         evt = pg.event.poll()
@@ -92,6 +94,10 @@ def main(size, zoom, init_p, framerate):
             pg.image.save(screen, "out.png")
             raise SystemExit()
         _update(off, active, cooldown, colors)
+        gen += 1
+        if generations > 0 and gen >= generations:
+            pg.image.save(screen, "out.png")
+            raise SystemExit()
 
         sf.blit_array(surface, colors)
         pg.transform.scale(surface, (size * zoom, size * zoom), screen)
@@ -125,6 +131,10 @@ def parse_args():
         "-f", "--framerate", type=int, default=FRAMERATE,
         help=f"Target frames per second (default: {FRAMERATE})"
     )
+    parser.add_argument(
+        "-g", "--generations", type=int, default=GENERATIONS,
+        help=f"Exit after N generations (default: {GENERATIONS}, run indefinitely)"
+    )
     return parser.parse_args()
 
 
@@ -132,7 +142,7 @@ def run():
     """Entry point for installed script."""
     args = parse_args()
     zoom = args.zoom if args.zoom is not None else 1000 // args.size
-    main(args.size, zoom, args.p_active, args.framerate)
+    main(args.size, zoom, args.p_active, args.framerate, args.generations)
 
 
 if __name__ == '__main__':
