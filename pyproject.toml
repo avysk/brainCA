@@ -6,6 +6,7 @@ readme = "README.md"
 license = "BSD-2-Clause"
 requires-python = ">=3.11"
 dependencies = [
+    "imageio[ffmpeg]>=2.37.3",
     "numpy",
     "pygame-ce",
 ]

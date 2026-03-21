@@ -5,6 +5,7 @@ Brian Silverman's Brain
 
 import argparse
 
+import imageio.v2 as iio
 import numpy as np
 import pygame as pg
 import pygame.locals as lcls
@@ -67,7 +68,7 @@ def _update(off, active, cooldown, colors):
     colors[cooldown > 0] = (190., 219., 57.)
 
 
-def main(size, zoom, init_p, framerate, generations, picture):
+def main(size, zoom, init_p, framerate, generations, picture, video):
     """Entry point."""
     delay_ms = 1000 // framerate
     # pylint:disable=no-member
@@ -86,20 +87,22 @@ def main(size, zoom, init_p, framerate, generations, picture):
     screen = pg.display.set_mode((size * zoom, size * zoom), 0, 24)
     # pylint:disable=too-many-function-args
     surface = pg.Surface((size, size))
+
+    writer = None
+    if video:
+        writer = iio.get_writer(video, fps=framerate)
+
     gen = 0
-    while True:
+    running = True
+    while running:
         loop_start_ms = pg.time.get_ticks()
         evt = pg.event.poll()
         if evt.type == lcls.QUIT:
-            if picture:
-                pg.image.save(screen, picture)
-            raise SystemExit()
+            running = False
         _update(off, active, cooldown, colors)
         gen += 1
         if generations > 0 and gen >= generations:
-            if picture:
-                pg.image.save(screen, picture)
-            raise SystemExit()
+            running = False
 
         sf.blit_array(surface, colors)
         pg.transform.scale(surface, (size * zoom, size * zoom), screen)
@@ -109,6 +112,17 @@ def main(size, zoom, init_p, framerate, generations, picture):
         else:
             pg.time.delay(loop_start_ms + delay_ms - loop_end_ms)
         pg.display.flip()
+
+        if writer:
+            frame = pg.surfarray.array3d(screen)
+            frame = np.transpose(frame, (1, 0, 2))
+            writer.append_data(frame)
+
+    if picture:
+        pg.image.save(screen, picture)
+    if writer:
+        writer.close()
+    raise SystemExit()
 
 
 def parse_args():
@@ -142,6 +156,11 @@ def parse_args():
         dest="picture",
         help="Save final screenshot to FILE"
     )
+    parser.add_argument(
+        "-v", "--video", type=str, default=None,
+        dest="video",
+        help="Save video to FILE (e.g., output.mp4)"
+    )
     return parser.parse_args()
 
 
@@ -149,7 +168,7 @@ def run():
     """Entry point for installed script."""
     args = parse_args()
     zoom = args.zoom if args.zoom is not None else 1000 // args.size
-    main(args.size, zoom, args.p_active, args.framerate, args.generations, args.picture)
+    main(args.size, zoom, args.p_active, args.framerate, args.generations, args.picture, args.video)
 
 
 if __name__ == '__main__':

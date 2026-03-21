@@ -21,13 +21,21 @@ The rules create self-propagating patterns where "waves" of activity travel acro
 ## Installation
 
 ```bash
-pip install numpy pygame
+uv sync
+```
+
+### FreeBSD
+
+pygame-ce builds from source and will fail. Install `py-game` first:
+
+```bash
+pkg install py-game
 ```
 
 ## Usage
 
 ```bash
-python brain.py
+uv run python brain.py
 ```
 
 Close the window to exit.
@@ -42,28 +50,26 @@ Close the window to exit.
 | `-f` | `--framerate`  | 30           | Target frames per second                   |
 | `-g` | `--generations`| 0            | Exit after N generations (0 = indefinite)  |
 | `-p` | `--picture`    |              | Save final screenshot to FILE              |
+| `-v` | `--video`      |              | Save video to FILE (e.g., output.mp4)      |
 
 Examples:
 
 ```bash
 # Run with defaults
-python brain.py
+uv run python brain.py
 
 # Larger grid with higher framerate
-python brain.py -s 800 -f 60
+uv run python brain.py -s 800 -f 60
 
 # Custom zoom and initial density
-python brain.py --size 300 --zoom 2 --init-p-active 0.01
+uv run python brain.py --size 300 --zoom 2 --init-p-active 0.01
 
 # Run for 1000 generations and save screenshot
-python brain.py -g 1000 -p output.png
+uv run python brain.py -g 1000 -p output.png
+
+# Save video of the simulation
+uv run python brain.py -g 500 -v simulation.mp4
 ```
-
-## Requirements
-
-- Python 3
-- NumPy
-- Pygame
 
 ## Screenshot
 
