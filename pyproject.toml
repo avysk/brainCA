@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
-brainca = "brain:main"
+brainca = "brain:run"
 
 [build-system]
 requires = ["hatchling"]

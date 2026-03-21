@@ -3,6 +3,8 @@ Brian Silverman's Brain
 """
 
 
+import argparse
+
 import numpy as np
 import pygame as pg
 import pygame.locals as lcls
@@ -10,11 +12,9 @@ import pygame.locals as lcls
 from pygame import surfarray as sf
 
 SIZE = 500
-ZOOM = 1000 // SIZE
+ZOOM = None  # Derived from SIZE if not specified
 P_ACTIVE = 1 / 250
-
 FRAMERATE = 30
-DELAY_MS = 1000 // FRAMERATE
 
 
 def _sum(src):
@@ -66,8 +66,9 @@ def _update(off, active, cooldown, colors):
     colors[cooldown > 0] = (190., 219., 57.)
 
 
-def main(size=SIZE, zoom=ZOOM, init_p=P_ACTIVE):
+def main(size, zoom, init_p, framerate):
     """Entry point."""
+    delay_ms = 1000 // framerate
     # pylint:disable=no-member
     pg.init()
 
@@ -95,12 +96,44 @@ def main(size=SIZE, zoom=ZOOM, init_p=P_ACTIVE):
         sf.blit_array(surface, colors)
         pg.transform.scale(surface, (size * zoom, size * zoom), screen)
         loop_end_ms = pg.time.get_ticks()
-        if loop_end_ms > loop_start_ms + DELAY_MS:
+        if loop_end_ms > loop_start_ms + delay_ms:
             print("WARNING: too slow for desired framerate")
         else:
-            pg.time.delay(loop_start_ms + DELAY_MS - loop_end_ms)
+            pg.time.delay(loop_start_ms + delay_ms - loop_end_ms)
         pg.display.flip()
 
 
+def parse_args():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Brian's Brain - a 2D cellular automaton simulation"
+    )
+    parser.add_argument(
+        "-s", "--size", type=int, default=SIZE,
+        help=f"Grid size (default: {SIZE})"
+    )
+    parser.add_argument(
+        "-z", "--zoom", type=int, default=None,
+        help="Display zoom factor (default: 1000 // SIZE)"
+    )
+    parser.add_argument(
+        "-p", "--p-active", type=float, default=P_ACTIVE,
+        dest="p_active",
+        help=f"Initial probability of a cell being active (default: {P_ACTIVE})"
+    )
+    parser.add_argument(
+        "-f", "--framerate", type=int, default=FRAMERATE,
+        help=f"Target frames per second (default: {FRAMERATE})"
+    )
+    return parser.parse_args()
+
+
+def run():
+    """Entry point for installed script."""
+    args = parse_args()
+    zoom = args.zoom if args.zoom is not None else 1000 // args.size
+    main(args.size, zoom, args.p_active, args.framerate)
+
+
 if __name__ == '__main__':
-    main(SIZE, ZOOM, P_ACTIVE)
+    run()

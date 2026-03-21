@@ -32,15 +32,27 @@ python brain.py
 
 Close the window to exit. A screenshot will be saved to `out.png`.
 
-## Configuration
+### Command-line Options
 
-Adjust these constants at the top of `brain.py`:
+| Flag | Long form      | Default      | Description                                |
+|------|----------------|--------------|--------------------------------------------|
+| `-s` | `--size`       | 500          | Grid size (N × N cells)                    |
+| `-z` | `--zoom`       | 1000 // SIZE | Display zoom factor                        |
+| `-p` | `--p-active`   | 0.004        | Initial probability of a cell being active |
+| `-f` | `--framerate`  | 30           | Target frames per second                   |
 
-| Constant  | Default | Description                              |
-|-----------|---------|------------------------------------------|
-| `SIZE`    | 500     | Grid size (500 × 500 cells)              |
-| `FRAMERATE`| 30     | Target frames per second                 |
-| `P_ACTIVE`| 0.004   | Initial probability of a cell being active|
+Examples:
+
+```bash
+# Run with defaults
+python brain.py
+
+# Larger grid with higher framerate
+python brain.py -s 800 -f 60
+
+# Custom zoom and initial density
+python brain.py --size 300 --zoom 2 --p-active 0.01
+```
 
 ## Requirements
 
