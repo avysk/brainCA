@@ -45,12 +45,14 @@ Close the window to exit.
 | Flag | Long form      | Default      | Description                                |
 |------|----------------|--------------|--------------------------------------------|
 | `-s` | `--size`          | 500          | Grid size (N × N cells)                    |
-| `-z` | `--zoom`           | 1000 // SIZE | Display zoom factor                        |
+| `-z` | `--zoom`           | 2            | Display zoom factor                        |
 | `-i` | `--init-p-active`  | 0.004        | Initial probability of a cell being active |
 | `-f` | `--framerate`  | 30           | Target frames per second                   |
 | `-g` | `--generations`| 0            | Exit after N generations (0 = indefinite)  |
 | `-p` | `--picture`    |              | Save final screenshot to FILE              |
 | `-v` | `--video`      |              | Save video to FILE (e.g., output.mp4)      |
+
+**Note:** When using `-v` (video output), it is recommended that `size × zoom` be divisible by 16 for optimal encoding compatibility.
 
 Examples:
 

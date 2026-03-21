@@ -13,7 +13,7 @@ import pygame.locals as lcls
 from pygame import surfarray as sf
 
 SIZE = 500
-ZOOM = None  # Derived from SIZE if not specified
+ZOOM = 2
 P_ACTIVE = 1 / 250
 FRAMERATE = 30
 GENERATIONS = 0
@@ -135,8 +135,8 @@ def parse_args():
         help=f"Grid size (default: {SIZE})"
     )
     parser.add_argument(
-        "-z", "--zoom", type=int, default=None,
-        help="Display zoom factor (default: 1000 // SIZE)"
+        "-z", "--zoom", type=int, default=ZOOM,
+        help=f"Display zoom factor (default: {ZOOM})"
     )
     parser.add_argument(
         "-i", "--init-p-active", type=float, default=P_ACTIVE,
@@ -167,7 +167,7 @@ def parse_args():
 def run():
     """Entry point for installed script."""
     args = parse_args()
-    zoom = args.zoom if args.zoom is not None else 1000 // args.size
+    zoom = args.zoom
     main(args.size, zoom, args.p_active, args.framerate, args.generations, args.picture, args.video)
 
 
