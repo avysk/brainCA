@@ -66,7 +66,7 @@ def _update(off, active, cooldown, colors):
     colors[cooldown > 0] = (190., 219., 57.)
 
 
-def main(size, zoom, init_p):
+def main(size=SIZE, zoom=ZOOM, init_p=P_ACTIVE):
     """Entry point."""
     # pylint:disable=no-member
     pg.init()
