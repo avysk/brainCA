@@ -67,7 +67,7 @@ def _update(off, active, cooldown, colors):
     colors[cooldown > 0] = (190., 219., 57.)
 
 
-def main(size, zoom, init_p, framerate, generations):
+def main(size, zoom, init_p, framerate, generations, picture):
     """Entry point."""
     delay_ms = 1000 // framerate
     # pylint:disable=no-member
@@ -91,12 +91,14 @@ def main(size, zoom, init_p, framerate, generations):
         loop_start_ms = pg.time.get_ticks()
         evt = pg.event.poll()
         if evt.type == lcls.QUIT:
-            pg.image.save(screen, "out.png")
+            if picture:
+                pg.image.save(screen, picture)
             raise SystemExit()
         _update(off, active, cooldown, colors)
         gen += 1
         if generations > 0 and gen >= generations:
-            pg.image.save(screen, "out.png")
+            if picture:
+                pg.image.save(screen, picture)
             raise SystemExit()
 
         sf.blit_array(surface, colors)
@@ -123,7 +125,7 @@ def parse_args():
         help="Display zoom factor (default: 1000 // SIZE)"
     )
     parser.add_argument(
-        "-p", "--p-active", type=float, default=P_ACTIVE,
+        "-i", "--init-p-active", type=float, default=P_ACTIVE,
         dest="p_active",
         help=f"Initial probability of a cell being active (default: {P_ACTIVE})"
     )
@@ -135,6 +137,11 @@ def parse_args():
         "-g", "--generations", type=int, default=GENERATIONS,
         help=f"Exit after N generations (default: {GENERATIONS}, run indefinitely)"
     )
+    parser.add_argument(
+        "-p", "--picture", type=str, default=None,
+        dest="picture",
+        help="Save final screenshot to FILE"
+    )
     return parser.parse_args()
 
 
@@ -142,7 +149,7 @@ def run():
     """Entry point for installed script."""
     args = parse_args()
     zoom = args.zoom if args.zoom is not None else 1000 // args.size
-    main(args.size, zoom, args.p_active, args.framerate, args.generations)
+    main(args.size, zoom, args.p_active, args.framerate, args.generations, args.picture)
 
 
 if __name__ == '__main__':

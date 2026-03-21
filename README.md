@@ -30,17 +30,18 @@ pip install numpy pygame
 python brain.py
 ```
 
-Close the window to exit. A screenshot will be saved to `out.png`.
+Close the window to exit.
 
 ### Command-line Options
 
 | Flag | Long form      | Default      | Description                                |
 |------|----------------|--------------|--------------------------------------------|
-| `-s` | `--size`       | 500          | Grid size (N × N cells)                    |
-| `-z` | `--zoom`       | 1000 // SIZE | Display zoom factor                        |
-| `-p` | `--p-active`   | 0.004        | Initial probability of a cell being active |
+| `-s` | `--size`          | 500          | Grid size (N × N cells)                    |
+| `-z` | `--zoom`           | 1000 // SIZE | Display zoom factor                        |
+| `-i` | `--init-p-active`  | 0.004        | Initial probability of a cell being active |
 | `-f` | `--framerate`  | 30           | Target frames per second                   |
 | `-g` | `--generations`| 0            | Exit after N generations (0 = indefinite)  |
+| `-p` | `--picture`    |              | Save final screenshot to FILE              |
 
 Examples:
 
@@ -52,7 +53,10 @@ python brain.py
 python brain.py -s 800 -f 60
 
 # Custom zoom and initial density
-python brain.py --size 300 --zoom 2 --p-active 0.01
+python brain.py --size 300 --zoom 2 --init-p-active 0.01
+
+# Run for 1000 generations and save screenshot
+python brain.py -g 1000 -p output.png
 ```
 
 ## Requirements
