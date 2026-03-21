@@ -1,0 +1,20 @@
+[project]
+name = "brainca"
+version = "0.1.0"
+description = "2D cellular automaton - Brian Silverman's Brain"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pygame-ce",
+]
+
+[project.scripts]
+brainca = "brain:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
