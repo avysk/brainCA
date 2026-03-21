@@ -3,6 +3,7 @@ name = "brainca"
 version = "0.1.0"
 description = "2D cellular automaton - Brian Silverman's Brain"
 readme = "README.md"
+license = "BSD-2-Clause"
 requires-python = ">=3.11"
 dependencies = [
     "numpy",
