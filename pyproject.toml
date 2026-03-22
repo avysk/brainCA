@@ -1,15 +1,11 @@
 [project]
 name = "brainca"
-version = "0.1.0"
+version = "0.2.0"
 description = "2D cellular automaton - Brian Silverman's Brain"
 readme = "README.md"
 license = "BSD-2-Clause"
 requires-python = ">=3.11"
-dependencies = [
-    "imageio[ffmpeg]>=2.37.3",
-    "numpy",
-    "pygame-ce",
-]
+dependencies = ["imageio[ffmpeg]>=2.37.3", "numpy", "pygame-ce"]
 
 [project.scripts]
 brainca = "brain:run"

@@ -3,6 +3,7 @@ Brian Silverman's Brain
 """
 
 import argparse
+import logging
 
 import imageio.v2 as iio
 import numpy as np
@@ -10,6 +11,8 @@ import pygame as pg
 import pygame.locals as lcls
 
 from pygame import surfarray as sf
+
+logger = logging.getLogger(__name__)
 
 SIZE = 500
 ZOOM = 2
@@ -63,6 +66,25 @@ def _update(off, active, cooldown, colors):
 
 def main(size, zoom, init_p, framerate, generations, picture, video):
     """Entry point."""
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Parameters:")
+    logger.info("  size: %d", size)
+    logger.info("  zoom: %d", zoom)
+    logger.info("  init_p: %s", init_p)
+    logger.info("  framerate: %d", framerate)
+    if generations == 0:
+        logger.info("  generations: indefinite")
+    else:
+        logger.info("  generations: %d", generations)
+    if picture:
+        logger.info("  picture: %s", picture)
+    else:
+        logger.info("  picture: will not be saved")
+    if video:
+        logger.info("  video: %s", video)
+    else:
+        logger.info("  video: will not be saved")
+
     delay_ms = 1000 // framerate
     # pylint:disable=no-member
     pg.init()
@@ -101,7 +123,7 @@ def main(size, zoom, init_p, framerate, generations, picture, video):
         pg.transform.scale(surface, (size * zoom, size * zoom), screen)
         loop_end_ms = pg.time.get_ticks()
         if loop_end_ms > loop_start_ms + delay_ms:
-            print("WARNING: too slow for desired framerate")
+            logger.warning("too slow for desired framerate")
         else:
             pg.time.delay(loop_start_ms + delay_ms - loop_end_ms)
         pg.display.flip()
