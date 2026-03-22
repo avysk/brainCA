@@ -1,6 +1,6 @@
 [project]
 name = "brainca"
-version = "0.2.0"
+version = "0.3.0"
 description = "2D cellular automaton - Brian Silverman's Brain"
 readme = "README.md"
 license = "BSD-2-Clause"

@@ -38,7 +38,7 @@ pkg install py-game
 uv run python brain.py
 ```
 
-Close the window to exit.
+Close the window or press Esc to exit.
 
 ### Command-line Options
 

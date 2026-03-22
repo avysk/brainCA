@@ -114,6 +114,8 @@ def main(size, zoom, init_p, framerate, generations, picture, video):
         evt = pg.event.poll()
         if evt.type == lcls.QUIT:
             running = False
+        elif evt.type == lcls.KEYDOWN and evt.key == lcls.K_ESCAPE:
+            running = False
         _update(off, active, cooldown, colors)
         gen += 1
         if generations > 0 and gen >= generations:
