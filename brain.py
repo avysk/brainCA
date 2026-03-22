@@ -2,7 +2,6 @@
 Brian Silverman's Brain
 """
 
-
 import argparse
 
 import imageio.v2 as iio
@@ -44,12 +43,6 @@ def _update(off, active, cooldown, colors):
     # Now total contains number of active neighbours, but is zeroed
     # for non-empty cells
 
-    # print("======")
-    # print("off\n", off)
-    # print("active\n", active)
-    # print("cooldown\n", cooldown)
-    # print("total\n", total)
-
     # cooldown -> off
     off += cooldown
 
@@ -63,9 +56,9 @@ def _update(off, active, cooldown, colors):
     active[total == 2] = 1
     off[total == 2] = 0
 
-    colors[:] = (0., 67., 88.)
-    colors[active > 0] = (253., 116., 0.)
-    colors[cooldown > 0] = (190., 219., 57.)
+    colors[:] = (0.0, 67.0, 88.0)
+    colors[active > 0] = (253.0, 116.0, 0.0)
+    colors[cooldown > 0] = (190.0, 219.0, 57.0)
 
 
 def main(size, zoom, init_p, framerate, generations, picture, video):
@@ -131,35 +124,52 @@ def parse_args():
         description="Brian's Brain - a 2D cellular automaton simulation"
     )
     parser.add_argument(
-        "-s", "--size", type=int, default=SIZE,
-        help=f"Grid size (default: {SIZE})"
+        "-s", "--size", type=int, default=SIZE, help=f"Grid size (default: {SIZE})"
     )
     parser.add_argument(
-        "-z", "--zoom", type=int, default=ZOOM,
-        help=f"Display zoom factor (default: {ZOOM})"
+        "-z",
+        "--zoom",
+        type=int,
+        default=ZOOM,
+        help=f"Display zoom factor (default: {ZOOM})",
     )
     parser.add_argument(
-        "-i", "--init-p-active", type=float, default=P_ACTIVE,
+        "-i",
+        "--init-p-active",
+        type=float,
+        default=P_ACTIVE,
         dest="p_active",
-        help=f"Initial probability of a cell being active (default: {P_ACTIVE})"
+        help=f"Initial probability of a cell being active (default: {P_ACTIVE})",
     )
     parser.add_argument(
-        "-f", "--framerate", type=int, default=FRAMERATE,
-        help=f"Target frames per second (default: {FRAMERATE})"
+        "-f",
+        "--framerate",
+        type=int,
+        default=FRAMERATE,
+        help=f"Target frames per second (default: {FRAMERATE})",
     )
     parser.add_argument(
-        "-g", "--generations", type=int, default=GENERATIONS,
-        help=f"Exit after N generations (default: {GENERATIONS}, run indefinitely)"
+        "-g",
+        "--generations",
+        type=int,
+        default=GENERATIONS,
+        help=f"Exit after N generations (default: {GENERATIONS}, run indefinitely)",
     )
     parser.add_argument(
-        "-p", "--picture", type=str, default=None,
+        "-p",
+        "--picture",
+        type=str,
+        default=None,
         dest="picture",
-        help="Save final screenshot to FILE"
+        help="Save final screenshot to FILE",
     )
     parser.add_argument(
-        "-v", "--video", type=str, default=None,
+        "-v",
+        "--video",
+        type=str,
+        default=None,
         dest="video",
-        help="Save video to FILE (e.g., output.mp4)"
+        help="Save video to FILE (e.g., output.mp4)",
     )
     return parser.parse_args()
 
@@ -168,8 +178,16 @@ def run():
     """Entry point for installed script."""
     args = parse_args()
     zoom = args.zoom
-    main(args.size, zoom, args.p_active, args.framerate, args.generations, args.picture, args.video)
+    main(
+        args.size,
+        zoom,
+        args.p_active,
+        args.framerate,
+        args.generations,
+        args.picture,
+        args.video,
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
